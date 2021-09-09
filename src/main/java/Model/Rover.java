@@ -39,7 +39,7 @@ public class Rover {
 	 * @param direction
 	 * @throws Exception
 	 */
-	public void spin(char side) throws Exception {
+	public void spin(char side) {
 		this.direction = DirectionUtils.getNextDirection(this.direction,side);
 	}
 
