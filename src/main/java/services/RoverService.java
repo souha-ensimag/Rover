@@ -4,13 +4,45 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import Model.Direction;
-import Model.Plateau;
-import Model.Rover;
-import Utils.DirectionUtils;
+import model.Direction;
+import model.Plateau;
+import model.Rover;
+import utils.Utils;
 
 public class RoverService {
 	
+	/**
+	 * @param filePath
+	 * @throws FileNotFoundException
+	 */
+	public static void explorePlateau(String filePath) throws FileNotFoundException {
+	    Scanner reader = Utils.createScanner(filePath);
+	    ArrayList<String> fileLines = Utils.readLines(reader);
+	    if(fileLines != null && !fileLines.isEmpty()) {
+		    Plateau plateau = Utils.readPlateauCoordinates(fileLines.get(0));
+		    for(int i = 1; i < fileLines.size(); i += 2) {
+	    		Rover rover = Utils.readRoverCoordinates(fileLines.get(i),plateau);
+		    	if(i + 1 < fileLines.size()) {
+		    		String instructionsString = fileLines.get(i+1);
+		        	changeRoverPosition(instructionsString,rover,plateau);
+		        	Utils.displayRoverPosition(rover);
+		    	}
+		    	else {
+		    		throw new IllegalArgumentException("There are now instructions for the rover");
+		    	}
+		    }		    
+	    } 
+	    else {
+	    	throw new IllegalArgumentException("The input file is empty");
+	    }
+	    reader.close();
+	}
+	
+	/**
+	 * @param instructionsString
+	 * @param rover
+	 * @param plateau
+	 */
 	public static void changeRoverPosition(String instructionsString, Rover rover, Plateau plateau) {
 		for(int j = 0; j < instructionsString.length(); j++){
 	    	char letter = instructionsString.charAt(j);
@@ -39,26 +71,4 @@ public class RoverService {
 	    }
 	}
 	
-	public static void explorePlateau(String filePath) throws FileNotFoundException {
-	    Scanner reader = DirectionUtils.createScanner(filePath);
-	    ArrayList<String> fileLines = DirectionUtils.readLines(reader);
-	    if(fileLines != null && !fileLines.isEmpty()) {
-		    Plateau plateau = DirectionUtils.readPlateauCoordinates(fileLines.get(0));
-		    for(int i = 1; i < fileLines.size(); i += 2) {
-	    		Rover rover = DirectionUtils.readRoverCoordinates(fileLines.get(i),plateau);
-		    	if(i + 1 < fileLines.size()) {
-		    		String instructionsString = fileLines.get(i+1);
-		        	RoverService.changeRoverPosition(instructionsString,rover,plateau);
-		        	DirectionUtils.displayRoverPosition(rover);
-		    	}
-		    	else {
-		    		throw new IllegalArgumentException("There are now instructions for the rover");
-		    	}
-		    }		    
-	    } 
-	    else {
-	    	throw new IllegalArgumentException("The input file is empty");
-	    }
-	    reader.close();
-	}
 }

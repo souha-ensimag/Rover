@@ -1,21 +1,23 @@
-package Tools.Rover;
+package application;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import services.RoverService;
+import utils.Utils;
 
 import org.junit.Test;
 
-import Model.Direction;
-import Model.Plateau;
-import Model.Rover;
-import Utils.DirectionUtils;
+import model.Direction;
+import model.Plateau;
+import model.Rover;
 
-public class AppTest {
+public class RoverAppTest {
 
 	@Test
     public void changeRoverPosition_only_left_side_instructions_should_succeed() {
@@ -111,49 +113,49 @@ public class AppTest {
     
     @Test
     public void getNextDirection_north_right_should_succeed() {
-    	Direction direction = DirectionUtils.getNextDirection(Direction.N,'R');
+    	Direction direction = Utils.getNextDirection(Direction.N,'R');
     	assertEquals(Direction.E,direction);
     }
     
     @Test
     public void getNextDirection_north_left_should_succeed() {
-    	Direction direction = DirectionUtils.getNextDirection(Direction.N,'L');
+    	Direction direction = Utils.getNextDirection(Direction.N,'L');
     	assertEquals(Direction.W,direction);
     }
     
     @Test
     public void getNextDirection_east_right_should_succeed() {
-    	Direction direction = DirectionUtils.getNextDirection(Direction.E,'R');
+    	Direction direction = Utils.getNextDirection(Direction.E,'R');
     	assertEquals(Direction.S,direction);
     }
     
     @Test
     public void getNextDirection_east_left_should_succeed() {
-    	Direction direction = DirectionUtils.getNextDirection(Direction.E,'L');
+    	Direction direction = Utils.getNextDirection(Direction.E,'L');
     	assertEquals(Direction.N,direction);
     }
     
     @Test
     public void getNextDirection_south_right_should_succeed() {
-    	Direction direction = DirectionUtils.getNextDirection(Direction.S,'R');
+    	Direction direction = Utils.getNextDirection(Direction.S,'R');
     	assertEquals(Direction.W,direction);
     }
     
     @Test
     public void getNextDirection_south_left_should_succeed() {
-    	Direction direction = DirectionUtils.getNextDirection(Direction.S,'L');
+    	Direction direction = Utils.getNextDirection(Direction.S,'L');
     	assertEquals(Direction.E,direction);
     }
     
     @Test
     public void getNextDirection_west_right_should_succeed() {
-    	Direction direction = DirectionUtils.getNextDirection(Direction.W,'R');
+    	Direction direction = Utils.getNextDirection(Direction.W,'R');
     	assertEquals(Direction.N,direction);
     }
     
     @Test
     public void getNextDirection_west_left_should_succeed() {
-    	Direction direction = DirectionUtils.getNextDirection(Direction.W,'L');
+    	Direction direction = Utils.getNextDirection(Direction.W,'L');
     	assertEquals(Direction.S,direction);
     }
     
@@ -161,7 +163,7 @@ public class AppTest {
     public void getNextDirection_wrong_side_should_fail() {
         try {
         	Rover rover = new Rover(1,3,Direction.N);
-        	DirectionUtils.getNextDirection(rover.getDirection(),'G');
+        	Utils.getNextDirection(rover.getDirection(),'G');
             fail();
         }
         catch (IllegalArgumentException e) {
@@ -174,7 +176,7 @@ public class AppTest {
         try {
         	Plateau plateau = new Plateau(5,5);
         	String line = "6 3 N";
-        	DirectionUtils.readRoverCoordinates(line,plateau);
+        	Utils.readRoverCoordinates(line,plateau);
             fail();
         }
         catch (IllegalArgumentException e) {
@@ -187,7 +189,7 @@ public class AppTest {
         try {
         	Plateau plateau = new Plateau(5,5);
         	String line = "3 6 N";
-        	DirectionUtils.readRoverCoordinates(line,plateau);
+        	Utils.readRoverCoordinates(line,plateau);
             fail();
         }
         catch (IllegalArgumentException e) {
@@ -199,7 +201,7 @@ public class AppTest {
     public void readRoverCoordinates_null_line_should_fail() {
         try {
         	Plateau plateau = new Plateau(5,5);
-        	DirectionUtils.readRoverCoordinates(null,plateau);
+        	Utils.readRoverCoordinates(null,plateau);
             fail();
         }
         catch (IllegalArgumentException e) {
@@ -212,7 +214,7 @@ public class AppTest {
         try {
         	Plateau plateau = new Plateau(5,5);
         	String line = "3 4 5 N";
-        	DirectionUtils.readRoverCoordinates(line,plateau);
+        	Utils.readRoverCoordinates(line,plateau);
             fail();
         }
         catch (IllegalArgumentException e) {
@@ -224,7 +226,7 @@ public class AppTest {
     public void readPlateauCoordinates_wrong_number_of_coordinates_should_fail() {
         try {
         	String line = "3 4 5";
-        	DirectionUtils.readPlateauCoordinates(line);
+        	Utils.readPlateauCoordinates(line);
             fail();
         }
         catch (IllegalArgumentException e) {
@@ -235,7 +237,7 @@ public class AppTest {
     @Test
     public void readPlateauCoordinates_null_line_should_fail() {
         try {
-        	DirectionUtils.readPlateauCoordinates(null);
+        	Utils.readPlateauCoordinates(null);
             fail();
         }
         catch (IllegalArgumentException e) {
@@ -289,4 +291,5 @@ public class AppTest {
             // expected
         }
     }
+    
 }

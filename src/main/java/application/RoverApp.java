@@ -1,8 +1,9 @@
-package Tools.Rover;
+package application;
 
 import services.RoverService;
 
-public class App {
+public class RoverApp {
+	
     public static void main( String[] args ) throws Exception {
 		try {
 	    	RoverService.explorePlateau(args[0]);

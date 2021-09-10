@@ -1,16 +1,21 @@
-package Utils;
+package utils;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import Model.Direction;
-import Model.Plateau;
-import Model.Rover;
+import model.Direction;
+import model.Plateau;
+import model.Rover;
 
-public class DirectionUtils {
+public class Utils {
 	
+	/**
+	 * @param direction
+	 * @param side
+	 * @return
+	 */
 	public static Direction getNextDirection(Direction direction, char side){
 		if(side == 'L') {
 			switch(direction) {
@@ -45,6 +50,10 @@ public class DirectionUtils {
 		}
 	}
 	
+	/**
+	 * @param reader
+	 * @return
+	 */
 	public static ArrayList<String> readLines(Scanner reader) {
 		ArrayList<String> lines = new ArrayList<String>();
 		while(reader.hasNext()) {
@@ -54,14 +63,18 @@ public class DirectionUtils {
 		return lines;
 	}
 	
+	/**
+	 * @param line
+	 * @return
+	 */
 	public static Plateau readPlateauCoordinates(String line) {
 		if(line != null) {
 			String[] plateauCoordinates = line.split(" ");
-			if(plateauCoordinates != null && plateauCoordinates.length == 2) {
+			if(plateauCoordinates.length == 2 && Integer.parseInt(plateauCoordinates[0]) > 0 && Integer.parseInt(plateauCoordinates[1]) > 0) {
 				return new Plateau(Integer.parseInt(plateauCoordinates[0]),Integer.parseInt(plateauCoordinates[1]));
 			} 
 			else {
-				throw new IllegalArgumentException("readPlateauCoordinates - PlateauCoordinates is null or number of plateau coordinates is wrong");
+				throw new IllegalArgumentException("readPlateauCoordinates - Number of plateau coordinates is wrong or coordinates equal to zero");
 			}
 		} 
 		else {
@@ -70,6 +83,11 @@ public class DirectionUtils {
 
 	}
 	
+	/**
+	 * @param line
+	 * @param plateau
+	 * @return
+	 */
 	public static Rover readRoverCoordinates(String line, Plateau plateau) {
 		if(line != null) {
 			String[] roverCoordinates = line.split(" ");
@@ -77,7 +95,7 @@ public class DirectionUtils {
 				int x = Integer.parseInt(roverCoordinates[0]);
 				int y = Integer.parseInt(roverCoordinates[1]);
 				// TODO create function verify coordinates 
-				if(x <= plateau.getHigherX() && y <= plateau.getHigherY()) {
+				if(x <= plateau.getHigherX() && y <= plateau.getHigherY() && x >= Plateau.getLowerX() && y >= Plateau.getLowerY()) {
 					return new Rover(Integer.parseInt(roverCoordinates[0]),Integer.parseInt(roverCoordinates[1]),Direction.valueOf(roverCoordinates[2]));
 				}
 				else {
@@ -94,10 +112,18 @@ public class DirectionUtils {
 
 	}
 	
+	/**
+	 * @param filePath
+	 * @return
+	 * @throws FileNotFoundException
+	 */
 	public static Scanner createScanner(String filePath) throws FileNotFoundException {
 	    return new Scanner(new FileInputStream(filePath));
 	}
 	
+	/**
+	 * @param rover
+	 */
 	public static void displayRoverPosition(Rover rover) {
     	System.out.println(rover.toString());
 	}
