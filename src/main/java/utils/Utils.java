@@ -94,7 +94,6 @@ public class Utils {
 			if(roverCoordinates.length == 3) {
 				int x = Integer.parseInt(roverCoordinates[0]);
 				int y = Integer.parseInt(roverCoordinates[1]);
-				// TODO create function verify coordinates 
 				if(x <= plateau.getHigherX() && y <= plateau.getHigherY() && x >= Plateau.getLowerX() && y >= Plateau.getLowerY()) {
 					return new Rover(Integer.parseInt(roverCoordinates[0]),Integer.parseInt(roverCoordinates[1]),Direction.valueOf(roverCoordinates[2]));
 				}

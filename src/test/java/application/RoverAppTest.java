@@ -3,9 +3,7 @@ package application;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 
 import services.RoverService;
@@ -198,6 +196,32 @@ public class RoverAppTest {
     }
     
     @Test
+    public void readRoverCoordinates_negative_abscissa_should_fail() {
+        try {
+        	Plateau plateau = new Plateau(5,5);
+        	String line = "-3 4 N";
+        	Utils.readRoverCoordinates(line,plateau);
+            fail();
+        }
+        catch (IllegalArgumentException e) {
+            // expected
+        }
+    }
+    
+    @Test
+    public void readRoverCoordinates_negative_ordinate_should_fail() {
+        try {
+        	Plateau plateau = new Plateau(5,5);
+        	String line = "3 -4 N";
+        	Utils.readRoverCoordinates(line,plateau);
+            fail();
+        }
+        catch (IllegalArgumentException e) {
+            // expected
+        }
+    }
+    
+    @Test
     public void readRoverCoordinates_null_line_should_fail() {
         try {
         	Plateau plateau = new Plateau(5,5);
@@ -226,6 +250,30 @@ public class RoverAppTest {
     public void readPlateauCoordinates_wrong_number_of_coordinates_should_fail() {
         try {
         	String line = "3 4 5";
+        	Utils.readPlateauCoordinates(line);
+            fail();
+        }
+        catch (IllegalArgumentException e) {
+            // expected
+        }
+    }
+    
+    @Test
+    public void readPlateauCoordinates_wrong_abscissa_should_fail() {
+        try {
+        	String line = "-5 5";
+        	Utils.readPlateauCoordinates(line);
+            fail();
+        }
+        catch (IllegalArgumentException e) {
+            // expected
+        }
+    }
+    
+    @Test
+    public void readPlateauCoordinates_wrong_ordinate_should_fail() {
+        try {
+        	String line = "5 -5";
         	Utils.readPlateauCoordinates(line);
             fail();
         }
